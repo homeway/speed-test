@@ -57,6 +57,7 @@
     var processing = 0;
     var max_speed = 0;
     function test_start(){
+      console.log("开始测速------>")
       processing = 20;
       $("#processing").css("width", "20%");
       max_speed = 0;
@@ -74,7 +75,7 @@
     <ul class="title-area">
       <!-- Title Area -->
       <li class="name">
-        <h1><a href="#">鸿蒙科技 </a></h1>
+        <h1><a href="#">华工信息软件有限公司 </a></h1>
       </li>
     </ul>
   </nav>
@@ -83,6 +84,8 @@
     <div class="large-12 medium-12 small-12 columns">
       <div class="panel">
         <h2>我想知道网络速度：）</h2>
+        <h4>您正在通过浏览器测试所访问资源的带宽速率。</h4>
+        <h4>为了得到真实的测试结果，开始测速前<b>请关闭所有占用CPU、网络的应用程序</b>。</h4>
         <div>
           <button class="large expand" onclick="test_start()">开始测速</button>
         </div>
