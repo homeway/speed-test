@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>网络测速</title>
+
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/foundation.css" />
+  <script src="js/vendor/custom.modernizr.js"></script>
+</head>
+<body>
+  <script>
+  document.write('<script src=' +
+  ('__proto__' in {} ? 'js/vendor/zepto' : 'js/vendor/jquery') +
+  '.js><\/script>')
+  </script>
+  <script src="js/foundation/foundation.js"></script>
+  <script src="js/foundation/foundation.alerts.js"></script>
+  <script src="js/foundation/foundation.clearing.js"></script>
+  <script src="js/foundation/foundation.cookie.js"></script>
+  <script src="js/foundation/foundation.dropdown.js"></script>
+  <script src="js/foundation/foundation.forms.js"></script>
+  <script src="js/foundation/foundation.joyride.js"></script>
+  <script src="js/foundation/foundation.magellan.js"></script>
+  <script src="js/foundation/foundation.orbit.js"></script>
+  <script src="js/foundation/foundation.placeholder.js"></script>
+  <script src="js/foundation/foundation.reveal.js"></script>
+  <script src="js/foundation/foundation.section.js"></script>
+  <script src="js/foundation/foundation.tooltips.js"></script>
+  <script src="js/foundation/foundation.topbar.js"></script>
+  <script src="js/foundation/foundation.interchange.js"></script>
+  
+  <script>
+    $(document).foundation();
+  </script>
+
+  <script>
+    var startTime, endTime;
+    var imageAddr = "/test1.jpg?";
+    var downloadSize = [2348490];
+    //var imageAddr = "http://r.photo.store.qq.com/psb?/253ad6bd-2593-4d74-aee2-b358921dbbe1/ANtouNQV7HTVbaiDXrt2WIdAIiESHjEY1na3ezVlpaI!/o/dHx1*5cdDAAA&amp;bo=IANYAkAGsAQBAKw!&rf=photoDetailHDViewer&";
+    //var downloadSize = [457000];
+    function test_speed(){
+      $("#speed-label").text("正在测速");
+      var download = new Image();
+      download.onload = function () {
+          endTime = (new Date()).getTime();
+          var duration = (endTime - startTime) / 1000;
+          var bitsLoaded = downloadSize * 8;
+          var speedBps = (bitsLoaded / duration).toFixed(2);
+          var speedKbps = (speedBps / 1024).toFixed(2);
+          var speedMbps = (speedKbps / 1024).toFixed(2);
+          console.log("test speed: " + speedKbps + "Kbps")
+          delete download;
+          if(speedMbps > max_speed){max_speed = speedMbps;}
+          $("#processing").css("width", processing+"%");
+          if(processing < 100){
+            processing += 20;
+            test_process();
+          }
+          else{
+            $("#speed-label").text("您目前的网速为" + max_speed + " Mbps");
+          }
+      }
+      startTime = (new Date()).getTime();
+      download.src = imageAddr + "n=" + Math.random();
+    };
+    var processing = 0;
+    var max_speed = 0;
+    function test_start(){
+      processing = 20;
+      $("#processing").css("width", "20%");
+      max_speed = 0;
+      test_process();
+    }
+    function test_process(){
+      setTimeout(
+        function(){
+          test_speed();
+        }, 200);
+    }
+  </script>
+  
+  <nav class="top-bar">
+    <ul class="title-area">
+      <!-- Title Area -->
+      <li class="name">
+        <h1><a href="#">鸿蒙科技 </a></h1>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="row">
+    <div class="large-12 medium-12 small-12 columns">
+      <div class="panel">
+        <h2>我想知道网络速度：）</h2>
+        <div>
+          <button class="large expand" onclick="test_start()">开始测速</button>
+        </div>
+        <div class="progress success round"><span id="processing" class="meter" style="width: 0%"></span></div>
+        <div>
+          <span id="speed-label" class="success label" style="font-size: 20px;">这里会显示测速结论。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
+
