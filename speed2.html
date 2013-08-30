@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="js/vendor/jquery.js"></script>
+<script type="text/javascript">
+  var current = 0;
+  var max_speed = 0;
+  var targe_url = null;
+  var targes = new Array("/test-300K.txt?=", "/test-500K.txt?=", "/test-1M.txt?=", "/test-3M.txt?=", "/test-3M.txt?=", "/test-8M.txt?=");
+  function test(){
+    current = 0;
+    max_speed = 0;
+    speed_process();
+  };
+  function speed_process()
+  {
+    var d = new Date;
+    if(current < targes.length){
+      url = targes[current] + Math.random();
+      var time1 = d.getTime();
+      $.ajax({
+        type: "GET",
+        cache: false,
+        async: false,
+        url: url,
+        timeout: 30000,
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        dataType: "html",
+        complete: function(XMLHttpRequest, textStatus){
+          //console.log("ajax response:[" + textStatus + "]");
+        },
+        success: function (data, textStatus) {
+          var d = new Date;
+          //var time = Math.round((d.getTime()-time1)/10)/100;
+          var cost = d.getTime() - time1;
+          var len = data.length * 8;
+          var speed = ((len * 1000)/cost);
+          console.log("--->>> " + cost + "微秒\t" + len + "比特\t" + (speed/1024/1024).toFixed(2) + "Mbps[" + url + "]");
+          if(speed > max_speed){ max_speed = speed; }
+          current ++;
+          speed_process();
+        }
+      });
+    }
+    else{
+      console.log("the max_speed is: " + (max_speed/1024/1024).toFixed(2) + "Mbps")
+    }
+  };
+</script>
+ 
+</head>
+  <body>
+    <button onclick="test()">Test</button>
+  </body>
+</html>

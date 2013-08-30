@@ -25,26 +25,31 @@
 
   <script>
     var startTime, endTime;
-    var imageAddr = "/test1.jpg?";
-    var downloadSize = [2348490];
+    var process_step = 20;
+    // targe's size must be 5    
+    var targe_images = new Array("/test1.jpg?", "/test3.jpg?", "/test2.jpg?", "/test3.jpg?", "/test3.jpg?");
+    var targe_size = new Array(10349, 109409, 2348490, 1721594, 2348490);
+    //var imageAddr = "/test1.jpg?";
+    //var downloadSize = [2348490];
     //var imageAddr = "http://r.photo.store.qq.com/psb?/253ad6bd-2593-4d74-aee2-b358921dbbe1/ANtouNQV7HTVbaiDXrt2WIdAIiESHjEY1na3ezVlpaI!/o/dHx1*5cdDAAA&amp;bo=IANYAkAGsAQBAKw!&rf=photoDetailHDViewer&";
     //var downloadSize = [457000];
     function test_speed(){
       $("#speed-label").text("正在测速");
       var download = new Image();
+      var i = Math.round((processing/process_step)-1);
       download.onload = function () {
           endTime = (new Date()).getTime();
           var duration = (endTime - startTime) / 1000;
-          var bitsLoaded = downloadSize * 8;
+          var bitsLoaded = targe_size[i] * 8;
           var speedBps = (bitsLoaded / duration).toFixed(2);
           var speedKbps = (speedBps / 1024).toFixed(2);
           var speedMbps = (speedKbps / 1024).toFixed(2);
-          console.log("test speed: " + speedKbps + "Kbps")
+          console.log("test speed: " + speedMbps + "Mbps[" + targe_images[i] + "]" + targe_size[i] + "比特");
           delete download;
           if(speedMbps > max_speed){max_speed = speedMbps;}
           $("#processing").css("width", processing+"%");
           if(processing < 100){
-            processing += 20;
+            processing += process_step;
             test_process();
           }
           else{
@@ -52,7 +57,7 @@
           }
       }
       startTime = (new Date()).getTime();
-      download.src = imageAddr + "n=" + Math.random();
+      download.src = targe_images[i] + "n=" + startTime;//Math.random();
     };
     var processing = 0;
     var max_speed = 0;
