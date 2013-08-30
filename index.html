@@ -24,11 +24,13 @@
   </script>
 
   <script>
+    var processing = 0;
+    var max_speed = 0;
     var startTime, endTime;
     var process_step = 20;
     // targe's size must be 5    
-    var targe_images = new Array("/test1.jpg?", "/test3.jpg?", "/test2.jpg?", "/test3.jpg?", "/test3.jpg?");
-    var targe_size = new Array(10349, 109409, 2348490, 1721594, 2348490);
+    var targe_images = new Array("/test1.jpg?", "/test3.jpg?", "/test2.jpg?", "/test3.jpg?", "/test4.jpg?");
+    var targe_size = new Array(109409, 2348490, 1721594, 2348490, 3078416);
     //var imageAddr = "/test1.jpg?";
     //var downloadSize = [2348490];
     //var imageAddr = "http://r.photo.store.qq.com/psb?/253ad6bd-2593-4d74-aee2-b358921dbbe1/ANtouNQV7HTVbaiDXrt2WIdAIiESHjEY1na3ezVlpaI!/o/dHx1*5cdDAAA&amp;bo=IANYAkAGsAQBAKw!&rf=photoDetailHDViewer&";
@@ -45,22 +47,23 @@
           var speedKbps = (speedBps / 1024).toFixed(2);
           var speedMbps = (speedKbps / 1024).toFixed(2);
           console.log("test speed: " + speedMbps + "Mbps[" + targe_images[i] + "]" + targe_size[i] + "比特");
-          delete download;
-          if(speedMbps > max_speed){max_speed = speedMbps;}
+          if(parseFloat(speedMbps) > parseFloat(window.max_speed)){
+            window.max_speed = speedMbps;
+            console.log("目前网速" + window.max_speed + " Mbps");
+          }
           $("#processing").css("width", processing+"%");
           if(processing < 100){
             processing += process_step;
             test_process();
           }
           else{
-            $("#speed-label").text("您目前的网速为" + max_speed + " Mbps");
+            $("#speed-label").text("您目前的网速为" + window.max_speed + " Mbps");
           }
+          delete download;
       }
       startTime = (new Date()).getTime();
       download.src = targe_images[i] + "n=" + startTime;//Math.random();
     };
-    var processing = 0;
-    var max_speed = 0;
     function test_start(){
       console.log("开始测速------>")
       processing = 20;

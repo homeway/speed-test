@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,7 @@
   var current = 0;
   var max_speed = 0;
   var targe_url = null;
-  var targes = new Array("/test-300K.txt?=", "/test-500K.txt?=", "/test-1M.txt?=", "/test-3M.txt?=", "/test-3M.txt?=", "/test-8M.txt?=");
+  var targes = new Array("/test-300K.txt?n=", "/test-500K.txt?n=", "/test-1M.txt?n=", "/test-3M.txt?n=", "/test-3M.txt?n=", "/test-8M.txt?n=");
   function test(){
     current = 0;
     max_speed = 0;
@@ -46,6 +47,41 @@
     else{
       console.log("the max_speed is: " + (max_speed/1024/1024).toFixed(2) + "Mbps")
     }
+=======
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="js/vendor/zepto.js"></script>
+<script type="text/javascript">
+  function test()
+  {
+    console.log("begin test speed -->>")
+    var d = new Date;
+    var time1 = d.getTime();
+    var url = "/test1.jpg?s=" + time1;
+    console.log("from: " + time1); 
+    $.get(
+      url,
+      function(data, textStatus){
+        var d = new Date;
+        //var time = Math.round((d.getTime()-time1)/10)/100;
+        console.log("to  : " + d.getTime()); 
+        var cost = d.getTime() - time1;
+        console.log("cost: " + cost + "1/1000秒");
+        console.log("receive:" + data.length + "bytes")
+        var connSpeed = Math.round(data.length/cost/1000);
+        var speed = Math.round((data.length * 1000)/cost);
+        console.log("speed:" + speed + "bps")
+        console.log("speed:" + speed/1024 + "kbps")
+        console.log("speed:" + speed/1024/1024 + "Mbps")
+   
+//        alert("Total time: \t\t\t"+cost/1000+" second"+
+//       "\nTotal bytes: \t\t\t"+data.length+" bytes"+
+//       "\nConnection speed: \t"+speed/1000+" kBps");     
+      }
+    );
+>>>>>>> refs/heads/master
   };
 </script>
  
